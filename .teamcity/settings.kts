@@ -52,7 +52,7 @@ object Build : BuildType({
                 ls -la
                 pwd
                 chmod +x mvnw.cmd
-                ./mvnw.cmd test -DfailIfNoTests=false -Dtest=testname -pl subproject
+                ./mvnw test -DfailIfNoTests=false -Dtest=testname -pl subproject
             """.trimIndent()
         }
     }

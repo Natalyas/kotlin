@@ -48,8 +48,7 @@ object Build : BuildType({
         }
         script {
             scriptContent = """
-                echo "123"
-                ls -la
+                mvn -N io.takari:maven:wrapper
                 pwd
                 chmod +x mvnw
                 ./mvnw test -DfailIfNoTests=false -Dit.test=SlowWebServiceTest

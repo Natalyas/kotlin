@@ -51,6 +51,7 @@ object Build : BuildType({
         script {
             scriptContent = """
                 chmod +x mvnw
+                ./mvnw install
                 ./mvnw -N io.takari:maven:wrapper
                 ./mvnw test -DfailIfNoTests=false -Dit.test=SlowWebServiceTest
             """.trimIndent()

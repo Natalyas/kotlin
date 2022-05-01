@@ -49,9 +49,7 @@ object Build : BuildType({
         script {
             scriptContent = """
                 mvn -N io.takari:maven:wrapper
-                pwd
-                chmod +x mvnw
-                ./mvnw test -DfailIfNoTests=false -Dit.test=SlowWebServiceTest
+                mvn test -DfailIfNoTests=false -Dit.test=SlowWebServiceTest
             """.trimIndent()
         }
     }

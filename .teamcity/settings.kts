@@ -1,6 +1,5 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.maven
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 
 /*
@@ -48,14 +47,8 @@ object Build : BuildType({
             runnerArgs = "-Dmaven.test.failure.ignore=true"
             jdkHome = "%env.JDK_17_0%"
         }
-        script {
-            scriptContent = """
-                chmod +x mvnw
-                ./mvnw  -N wrapper:wrapper
-                ./mvnw -N io.takari:maven:wrapper
-                ./mvnw test -DfailIfNoTests=false -Dit.test=SlowWebServiceTest
-            """.trimIndent()
-            formatStderrAsError = true
+        maven {
+            goals = "test -DfailIfNoTests=false -Dit.test=SlowWebServiceTest"
         }
     }
 })

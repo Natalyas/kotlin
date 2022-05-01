@@ -51,8 +51,8 @@ object Build : BuildType({
                 echo "123"
                 ls -la
                 pwd
-                chmod +x mvnw.cmd
-                ./mvnw test -DfailIfNoTests=false -Dtest=testname -pl subproject
+                chmod +x mvnw
+                ./mvnw test -DfailIfNoTests=false -Dit.test=SlowWebServiceTest
             """.trimIndent()
         }
     }

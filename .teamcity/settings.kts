@@ -31,10 +31,14 @@ project {
     vcsRoot(Maven)
 
     buildType(Build)
+    buildType(FastTest)
+    buildType(SlowTest)
     buildType(Package)
 
     sequential {
         buildType(Build)
+        buildType(FastTest)
+        buildType(SlowTest)
         buildType(Package)
     }
 }
@@ -49,8 +53,38 @@ object Build : BuildType({
 
     steps {
         maven {
-            goals = "clean test"
+            goals = "clean compile"
             runnerArgs = "-Dmaven.test.failure.ignore=true"
+        }
+    }
+})
+
+object FastTest : BuildType({
+    name = "FastTest"
+
+    vcs {
+        root(Maven)
+    }
+
+    steps {
+        maven {
+            goals = "clean test"
+            runnerArgs = "-Dmaven.test.failure.ignore=true -Dtest=*.unit.*Test"
+        }
+    }
+})
+
+object SlowTest : BuildType({
+    name = "SlowTest"
+
+    vcs {
+        root(Maven)
+    }
+
+    steps {
+        maven {
+            goals = "clean test"
+            runnerArgs = "-Dmaven.test.failure.ignore=true -Dtest=*.integration.*Test"
         }
     }
 })
@@ -64,7 +98,7 @@ object Package : BuildType({
 
     steps {
         maven {
-            goals = "clean test"
+            goals = "clean package"
             runnerArgs = "-Dmaven.test.failure.ignore=true"
         }
     }

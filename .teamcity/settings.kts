@@ -37,8 +37,7 @@ project {
 
     sequential {
         buildType(Build)
-        
-        parallel {
+        parallel (options = { onDependencyFailure = FailureAction.CANCEL }) {
             buildType(FastTest)
             buildType(SlowTest)
         }

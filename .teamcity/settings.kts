@@ -72,7 +72,7 @@ object FastTest : BuildType({
     steps {
         maven {
             goals = "clean test"
-            runnerArgs = "-Dmaven.test.failure.ignore=true -Dtest=*.unit.*Test"
+            runnerArgs = "-Dmaven.test.failure.ignore=true -Dtest=*.unit.*est"
         }
     }
 })
@@ -87,7 +87,7 @@ object SlowTest : BuildType({
     steps {
         maven {
             goals = "clean test"
-            runnerArgs = "-Dmaven.test.failure.ignore=true -Dtest=*.integration.*Test"
+            runnerArgs = "-Dmaven.test.failure.ignore=true -Dtest=*.integration.*est"
         }
     }
 })

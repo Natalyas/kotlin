@@ -60,7 +60,7 @@ object Build : BuildType({
 })
 
 object Package : BuildType({
-    name = "build"
+    name = "Package"
 
     vcs {
         root(Maven)

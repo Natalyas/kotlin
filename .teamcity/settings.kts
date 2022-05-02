@@ -31,9 +31,35 @@ project {
     vcsRoot(Maven)
 
     buildType(Build)
+    buildType(Package)
+
+    sequential {
+        buildType(Build)
+        buildType(Package)
+    }
 }
 
+
 object Build : BuildType({
+    name = "build"
+
+    vcs {
+        root(Maven)
+    }
+
+    steps {
+        maven {
+            goals = "clean test"
+            runnerArgs = "-Dmaven.test.failure.ignore=true"
+        }
+        maven {
+            goals = "test"
+            runnerArgs = "-DfailIfNoTests=false -Dit.test=SlowWebServiceTest"
+        }
+    }
+})
+
+object Package : BuildType({
     name = "build"
 
     vcs {

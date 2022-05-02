@@ -41,7 +41,7 @@ project {
 
 
 object Build : BuildType({
-    name = "build"
+    name = "Build"
 
     vcs {
         root(Maven)
@@ -51,10 +51,6 @@ object Build : BuildType({
         maven {
             goals = "clean test"
             runnerArgs = "-Dmaven.test.failure.ignore=true"
-        }
-        maven {
-            goals = "test"
-            runnerArgs = "-DfailIfNoTests=false -Dit.test=SlowWebServiceTest"
         }
     }
 })
@@ -70,10 +66,6 @@ object Package : BuildType({
         maven {
             goals = "clean test"
             runnerArgs = "-Dmaven.test.failure.ignore=true"
-        }
-        maven {
-            goals = "test"
-            runnerArgs = "-DfailIfNoTests=false -Dit.test=SlowWebServiceTest"
         }
     }
 })

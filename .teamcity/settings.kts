@@ -39,7 +39,7 @@ project {
         buildType(Build)
         
         parallel {
-       -    buildType(FastTest)
+            buildType(FastTest)
             buildType(SlowTest)
         }
 

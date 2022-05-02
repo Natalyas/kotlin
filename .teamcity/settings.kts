@@ -42,13 +42,12 @@ object Build : BuildType({
 
     steps {
         maven {
-            enabled = false
             goals = "clean test"
             runnerArgs = "-Dmaven.test.failure.ignore=true"
-            jdkHome = "%env.JDK_17_0%"
         }
         maven {
-            goals = "test -DfailIfNoTests=false -Dit.test=SlowWebServiceTest"
+            goals = "test"
+            runnerArgs = "-DfailIfNoTests=false -Dit.test=SlowWebServiceTest"
         }
     }
 })

@@ -35,77 +35,31 @@ project {
     buildType(SlowTest)
     buildType(Package)
 
-    sequential {
-        buildType(Build)
+    val bts = sequential {
+        buildType( Maven(name: "Build", goals: "clean compile"))
         parallel (options = { onDependencyFailure = FailureAction.CANCEL }) {
-            buildType(FastTest)
-            buildType(SlowTest)
+            buildType(Maven(name: "FastTest", goals: "clean test", runnerArgs: '-Dmaven.test.failure.ignore=true -Dtest=*.unit.*Test' ))
+            buildType(Maven(name: "SlowTest", goals: "clean test", runnerArgs: '-Dmaven.test.failure.ignore=true -Dtest=*.integration.*Test'))
         }
 
-        buildType(Package)
-    }
+        buildType(Maven(name: "Package", goals: "clean package", runnerArgs: '-DskipTests'))
+    }.buildTypes()
+    bts.forEach { buildType(it)}
 }
 
-
-object Build : BuildType({
-    name = "Build"
-
+class Maven(name: String, goals: String, runnerArgs: String? = null) : BuildType ({
+    this.name =name
     vcs {
         root(Maven)
     }
-
-    steps {
-        maven {
-            goals = "clean compile"
-            runnerArgs = "-Dmaven.test.failure.ignore=true"
+        steps {
+            maven {
+                this.goals = goals
+                this.runnerArgs = runnerArgs
+            }
         }
-    }
 })
 
-object FastTest : BuildType({
-    name = "FastTest"
-
-    vcs {
-        root(Maven)
-    }
-
-    steps {
-        maven {
-            goals = "clean test"
-            runnerArgs = "-Dmaven.test.failure.ignore=true -Dtest=*.unit.*est"
-        }
-    }
-})
-
-object SlowTest : BuildType({
-    name = "SlowTest"
-
-    vcs {
-        root(Maven)
-    }
-
-    steps {
-        maven {
-            goals = "clean test"
-            runnerArgs = "-Dmaven.test.failure.ignore=true -Dtest=*.integration.*est"
-        }
-    }
-})
-
-object Package : BuildType({
-    name = "Package"
-
-    vcs {
-        root(Maven)
-    }
-
-    steps {
-        maven {
-            goals = "clean package"
-            runnerArgs = "-Dmaven.test.failure.ignore=true"
-        }
-    }
-})
 
 object Maven : GitVcsRoot({
     name = "maven"

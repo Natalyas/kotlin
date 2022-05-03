@@ -30,11 +30,6 @@ project {
 
     vcsRoot(Maven)
 
-    buildType(Build)
-    buildType(FastTest)
-    buildType(SlowTest)
-    buildType(Package)
-
     val bts = sequential {
         buildType(Maven_class(name: "Build", goals: "clean compile"))
         parallel (options = { onDependencyFailure = FailureAction.CANCEL }) {

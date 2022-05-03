@@ -38,11 +38,11 @@ project {
     val bts = sequential {
         buildType( Maven(name: "Build", goals: "clean compile"))
         parallel (options = { onDependencyFailure = FailureAction.CANCEL }) {
-            buildType(Maven(name: "FastTest", goals: "clean test", runnerArgs: '-Dmaven.test.failure.ignore=true -Dtest=*.unit.*Test' ))
-            buildType(Maven(name: "SlowTest", goals: "clean test", runnerArgs: '-Dmaven.test.failure.ignore=true -Dtest=*.integration.*Test'))
+            buildType(Maven(name: "FastTest", goals: "clean test", runnerArgs: "-Dmaven.test.failure.ignore=true -Dtest=*.unit.*Test" ))
+            buildType(Maven(name: "SlowTest", goals: "clean test", runnerArgs: "-Dmaven.test.failure.ignore=true -Dtest=*.integration.*Test"))
         }
 
-        buildType(Maven(name: "Package", goals: "clean package", runnerArgs: '-DskipTests'))
+        buildType(Maven(name: "Package", goals: "clean package", runnerArgs: "-DskipTests"))
     }.buildTypes()
     bts.forEach { buildType(it)}
 }

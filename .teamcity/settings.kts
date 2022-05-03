@@ -36,29 +36,29 @@ project {
     buildType(Package)
 
     val bts = sequential {
-        buildType( Maven(name: "Build", goals: "clean compile"))
+        buildType(Maven_class(name: "Build", goals: "clean compile"))
         parallel (options = { onDependencyFailure = FailureAction.CANCEL }) {
-            buildType(Maven(name: "FastTest", goals: "clean test", runnerArgs: "-Dmaven.test.failure.ignore=true -Dtest=*.unit.*Test" ))
-            buildType(Maven(name: "SlowTest", goals: "clean test", runnerArgs: "-Dmaven.test.failure.ignore=true -Dtest=*.integration.*Test"))
+            buildType(Maven_class(name: "FastTest", goals: "clean test", runnerArgs: "-Dmaven.test.failure.ignore=true -Dtest=*.unit.*Test" ))
+            buildType(Maven_class(name: "SlowTest", goals: "clean test", runnerArgs: "-Dmaven.test.failure.ignore=true -Dtest=*.integration.*Test"))
         }
 
-        buildType(Maven(name: "Package", goals: "clean package", runnerArgs: "-DskipTests"))
+        buildType(Maven_class(name: "Package", goals: "clean package", runnerArgs: "-DskipTests"))
     }.buildTypes()
     bts.forEach { buildType(it)}
 }
 
-class Maven(name: String, goals: String, runnerArgs: String? = null) : BuildType ({
-    this.name =name
+class Maven_class(name: String, goals: String, runnerArgs: String? = null) : BuildType({
     id(name.toExtId())
+    this.name =name
     vcs {
         root(Maven)
     }
-        steps {
-            maven {
-                this.goals = goals
-                this.runnerArgs = runnerArgs
-            }
+    steps {
+        maven {
+            this.goals = goals
+            this.runnerArgs = runnerArgs
         }
+    }
 })
 
 

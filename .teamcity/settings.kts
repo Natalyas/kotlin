@@ -30,14 +30,15 @@ project {
 
     vcsRoot(Maven)
 
+
     val bts = sequential {
-        buildType(Maven_class(name: "Build", goals: "clean compile"))
+        buildType(Maven_class("Build","clean compile"))
         parallel (options = { onDependencyFailure = FailureAction.CANCEL }) {
-            buildType(Maven_class(name: "FastTest", goals: "clean test", runnerArgs: "-Dmaven.test.failure.ignore=true -Dtest=*.unit.*Test" ))
-            buildType(Maven_class(name: "SlowTest", goals: "clean test", runnerArgs: "-Dmaven.test.failure.ignore=true -Dtest=*.integration.*Test"))
+            buildType(Maven_class("FastTest", "clean test", "-Dmaven.test.failure.ignore=true -Dtest=*.unit.*Test" ))
+            buildType(Maven_class("SlowTest", "clean test", "-Dmaven.test.failure.ignore=true -Dtest=*.integration.*Test"))
         }
 
-        buildType(Maven_class(name: "Package", goals: "clean package", runnerArgs: "-DskipTests"))
+        buildType(Maven_class("Package",  "clean package", "-DskipTests"))
     }.buildTypes()
     bts.forEach { buildType(it)}
 }

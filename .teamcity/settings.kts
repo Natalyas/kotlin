@@ -54,6 +54,7 @@ class Maven_class(name: String, goals: String, runnerArgs: String? = null) : Bui
         maven {
             this.goals = goals
             this.runnerArgs = runnerArgs
+            mavenVersion = bundled_3_6()
         }
     }
 })

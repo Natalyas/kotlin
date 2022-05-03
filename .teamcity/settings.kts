@@ -45,6 +45,7 @@ project {
 
 class Maven_class(name: String, goals: String, runnerArgs: String? = null) : BuildType({
     id(name.toExtId())
+
     this.name =name
     vcs {
         root(Maven)
